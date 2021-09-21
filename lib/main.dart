@@ -25,13 +25,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _currentIndex = 0;
+  int _currentIndex = 4;
   final List _children = [
-    HomePage(),
-    PlaceholderWidget(Colors.deepOrange),
-    PlaceholderWidget(Colors.green),
-    PlaceholderWidget(Colors.black),
-    PlaceholderWidget(Colors.yellow)
+    PlaceholderWidget(),
+    PlaceholderWidget(),
+    PlaceholderWidget(),
+    PlaceholderWidget(),
+    HomePage()
   ];
 
   void onTabTapped(int index) {
@@ -49,21 +49,41 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _currentIndex, // new
         items: [
           new BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              title: Text('Home'),
-              backgroundColor: Colors.black),
-          new BottomNavigationBarItem(
-            icon: Icon(Icons.category_outlined),
-            title: Text('Services'),
+            icon: Icon(
+              Icons.person_outline,
+              color: Colors.black,
+            ),
+            title: Text(
+              'حسابي',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
           new BottomNavigationBarItem(
-              icon: Icon(Icons.account_balance_wallet_outlined),
-              title: Text('digital wallet')),
+            icon: Icon(
+              Icons.dashboard_outlined,
+              color: Colors.black,
+            ),
+            title: Text('لوحة البيانات', style: TextStyle(color: Colors.black)),
+          ),
           new BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard_outlined), title: Text('Dashboard')),
+              icon: Icon(
+                Icons.account_balance_wallet_outlined,
+                color: Colors.black,
+              ),
+              title: Text('المحفظة الرقمية',
+                  style: TextStyle(color: Colors.black))),
           new BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            title: Text('Profile'),
+              icon: Icon(
+                Icons.category_outlined,
+                color: Colors.black,
+              ),
+              title: Text('الخدمات', style: TextStyle(color: Colors.black))),
+          new BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home_outlined,
+              color: Colors.black,
+            ),
+            title: Text('الرئيسية', style: TextStyle(color: Colors.black)),
           )
         ],
       ),
