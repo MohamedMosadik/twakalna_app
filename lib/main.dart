@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:twakalna_app/placeholder.dart';
 
 import 'home.dart';
@@ -12,6 +13,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', ''), // English, no country code
+        const Locale('ar', ''), // Arabic, no country code
+        const Locale('fr', ''),
+        const Locale('pt_BR', ''),
+      ],
       home: MyHomePage(),
     );
   }
@@ -45,13 +55,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: _children[_currentIndex], // new
       bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped, // new
+        onTap: onTabTapped,
+        showUnselectedLabels: true, // new
         currentIndex: _currentIndex, // new
         items: [
           new BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person_outline,
-              color: Colors.black,
+            icon: Image(
+              image: AssetImage("assets/icon/12.png"),
+              height: 20,
             ),
             title: Text(
               'حسابي',
@@ -59,29 +70,31 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           new BottomNavigationBarItem(
-            icon: Icon(
-              Icons.dashboard_outlined,
-              color: Colors.black,
+            icon: Image(
+              image: AssetImage("assets/icon/11.png"),
+              height: 20,
             ),
             title: Text('لوحة البيانات', style: TextStyle(color: Colors.black)),
           ),
           new BottomNavigationBarItem(
-              icon: Icon(
-                Icons.account_balance_wallet_outlined,
-                color: Colors.black,
+              icon: Image(
+                image: AssetImage("assets/icon/10.png"),
+                height: 20,
               ),
-              title: Text('المحفظة الرقمية',
-                  style: TextStyle(color: Colors.black))),
+              title: Text(
+                'المحفظة الرقمية',
+                style: TextStyle(color: Colors.black, fontSize: 12),
+              )),
           new BottomNavigationBarItem(
-              icon: Icon(
-                Icons.category_outlined,
-                color: Colors.black,
+              icon: Image(
+                image: AssetImage("assets/icon/9.png"),
+                height: 20,
               ),
               title: Text('الخدمات', style: TextStyle(color: Colors.black))),
           new BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_outlined,
-              color: Colors.black,
+            icon: Image(
+              image: AssetImage("assets/icon/8.png"),
+              height: 20,
             ),
             title: Text('الرئيسية', style: TextStyle(color: Colors.black)),
           )

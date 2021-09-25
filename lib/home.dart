@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:twakalna_app/passportHealth.dart';
+import 'package:twakalna_app/placeholder.dart';
 import 'package:twakalna_app/serviceModel.dart';
+import 'package:video_player/video_player.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({key}) : super(key: key);
@@ -11,12 +14,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String formattedDate =
-      DateFormat('EEE, M/d/y – kk:mm').format((DateTime.now()));
+  DateFormat dateFormat;
+  DateFormat timeFormat;
+
+  VideoPlayerController _controller;
+  Future<void> _initializeVideoPlayerFuture;
+
+  // var format = DateFormat.yMd('ar');
+  // var dateString = format.format(DateTime.now());
+
+  //   initializeDateFormatting("ar_SA", null).then((_) {
+  // var now = DateTime.now();
+  //   var formatter = DateFormat.yMMMd('ar_SA');
+  //   print(formatter.locale);
+  //   String formatted = formatter.format(now);
+  //   print(formatted);
+  // });
+  // initializeDateFormatting("ar_SA", null).then((_) {
+  // String formattedDate =
+  //     DateFormat('EEE, M/d/y – kk:mm').format((DateTime.now()));
+  // });
 
   List<ServiceModel> model = [
     ServiceModel("التبرع بالأعضاء", 'assets/icon/1.png'),
-    ServiceModel("جواز الصحي", 'assets/icon/2.png'),
+    ServiceModel("الجواز الصحي", 'assets/icon/2.png'),
     ServiceModel("لقاح كرورنا", 'assets/icon/3.png'),
     ServiceModel("تعريف رقم الجوال", 'assets/icon/4.png'),
     ServiceModel("بطاقة الوضع الصحي", 'assets/icon/5.png'),
@@ -25,8 +46,50 @@ class _HomePageState extends State<HomePage> {
   ];
 
   @override
+  void initState() {
+    _controller = VideoPlayerController.asset(
+      'assets/vedio/line.mp4',
+    );
+    _controller.play();
+    _controller.setLooping(true);
+    _initializeVideoPlayerFuture = _controller.initialize();
+    // _controller.pause();
+    super.initState();
+    // initializeDateFormatting('ar_SA', null);
+  }
+
+  void _refresh() {
+    setState(() {
+      var now = DateTime.now();
+      DateFormat('EEE d MMM kk:mm').format(now);
+    });
+  }
+
+  // main() {
+  //   initializeDateFormatting("ar_SA", null).then((_) {
+  //     var now = DateTime.now();
+  //     var formatter = DateFormat.yMMMd('ar_SA');
+  //     print(formatter.locale);
+  //     String formatted = formatter.format(now);
+  //     print(formatted);
+  //   });
+  // }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String lastUpdate = formattedDate;
+    Intl.defaultLocale = "ar_SA";
+    var newFormat = new DateFormat.yMMMMd('ar_SA');
+    var now = DateTime.now();
+    var formatter = DateFormat('EEE d MMM kk:mm').format(now);
+    // String formatted = formatter.format(now);
+    // print(formatted);
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -44,132 +107,204 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 10,
               ),
-              Center(
-                child: Container(
-                    padding: EdgeInsets.only(top: 20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15.0),
-                      ),
-                      color: Colors.white,
-                    ),
-                    height: 250,
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    child: Column(
+              Column(
+                children: [
+                  Center(
+                    child: Stack(
                       children: [
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Color(0xFF054921),
-                          child: CircleAvatar(
-                            radius: 45,
-                            backgroundImage: AssetImage('assets/image/my.jpg'),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          'Mohamed Mosadik',
-                          style: TextStyle(color: Color(0xFF054921)),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          '28373465',
-                          style: TextStyle(color: Color(0xFF054921)),
-                        ),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                  height: 40,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(15),
-                                          bottomRight: Radius.circular(15)),
-                                      color: Color(0xFF054921))),
-                              Image(image: AssetImage('assets/image/logo.png'))
+                        Container(
+                          padding: EdgeInsets.only(top: 0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15.0),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.15),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
                             ],
+                            color: Colors.white,
                           ),
-                        )
+                          height: 220,
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: Image(
+                            image: AssetImage('assets/image/triangle.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        Positioned(
+                          left: 100,
+                          top: 20,
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Color(0xFF054921),
+                            child: CircleAvatar(
+                              radius: 45,
+                              backgroundImage:
+                                  AssetImage('assets/image/person.jpeg'),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 90,
+                          top: 130,
+                          child: Text(
+                            'سليمان محمد سليمان البقري',
+                            style: TextStyle(
+                                color: Color(0xFF054921),
+                                fontFamily: 'Arabic-Medium'),
+                          ),
+                        ),
+                        Positioned(
+                          left: 120,
+                          top: 150,
+                          child: Text(
+                            '٢٤٦١٢٤٥١٠٨',
+                            style: TextStyle(
+                                color: Color(0xFF054921),
+                                fontFamily: 'Arabic-Medium'),
+                          ),
+                        ),
+                        Positioned(
+                          top: 190,
+                          child: Container(
+                              height: 25,
+                              width: 70,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(15),
+                                      bottomRight: Radius.circular(15)),
+                                  color: Color(0xFF054921))),
+                        ),
+                        Positioned(
+                            right: 0,
+                            bottom: 10,
+                            child: Image(
+                              image: AssetImage('assets/image/takakkalna.png'),
+                              height: 20,
+                            )),
                       ],
-                    )),
+                    ),
+                  ),
+                ],
               ),
               Center(
                 child: Container(
                   margin: EdgeInsets.all(20),
                   padding: EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15.0),
-                    ),
-                    color: Color(0xFF054921),
-                  ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15.0),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Color(0xE10C864D),
+                          Color(0xFF054921),
+                        ],
+                      )
+                      // color: Color(0xFF054921),
+                      ),
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            formattedDate = lastUpdate;
-                          });
-                        },
-                        child: Icon(
-                          Icons.refresh,
-                          color: Colors.white,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            var now = DateTime.now();
+                            DateFormat('EEE d MMM kk:mm').format(now);
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Icon(
+                              Icons.refresh,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text('محصن',
-                              // textDirection: TextDirection.RTL,
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text('محصّن',
+                                // textDirection: TextDirection.RTL,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Arabic-Medium')),
+                            SizedBox(
+                              width: 120,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'أكمل جرعات لقاح كورونا (كوفيد 19)',
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold)),
-                          SizedBox(
-                            width: 120,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'أكمل جرعات لقاح كورونا (كوفيد 19)',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                              maxLines: 3,
                             ),
-                            maxLines: 3,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            '$lastUpdate : اخر تحديث  ',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
+                            SizedBox(
+                              height: 10,
                             ),
-                            maxLines: 3,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: Image(
-                          image: AssetImage('assets/image/barcode.jpeg'),
-                          height: 100,
-                          fit: BoxFit.fill,
+                            Text(
+                              " آخر تحديث : $formatter",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                              maxLines: 3,
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Container(
+                              height: 100,
+                              width: 100,
+                              child: (_controller != null
+                                  ? VideoPlayer(
+                                      _controller,
+                                    )
+                                  : Container()),
+                            ),
+                          ),
+
+                          // Image(
+                          //   image: AssetImage('assets/image/barcode.jpeg'),
+                          //   height: 100,
+                          //   fit: BoxFit.fill,
+                          // ),
+                        ),
+                        // FloatingActionButton(
+                        //   onPressed: () {
+                        //     // createVideo();
+                        //     _controller.play();
+                        //   },
+                        //   child: Icon(Icons.play_arrow),
+                        // )
+                      ]),
                 ),
               ),
               service(context, 10)
@@ -194,7 +329,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(
-                      Icons.arrow_back,
+                      Icons.arrow_back_ios,
                       size: 15,
                       color: Colors.black.withOpacity(0.7),
                     ),
@@ -204,11 +339,11 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       "عرض الكل",
                       style: TextStyle(
-                        fontSize: 11,
-                        color: const Color(0xff6d6d6d),
-                        letterSpacing: 0.132,
-                        fontWeight: FontWeight.w600,
-                      ),
+                          fontSize: 11,
+                          color: const Color(0xff6d6d6d),
+                          letterSpacing: 0.132,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Arabic-Medium'),
                       textHeightBehavior:
                           TextHeightBehavior(applyHeightToFirstAscent: false),
                       textAlign: TextAlign.left,
@@ -219,11 +354,11 @@ class _HomePageState extends State<HomePage> {
               Text(
                 'الخدمات الحديثة',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: const Color(0xE175A7A0),
-                  letterSpacing: 0.192,
-                  fontWeight: FontWeight.w700,
-                ),
+                    fontSize: 16,
+                    color: const Color(0xE175A7A0),
+                    letterSpacing: 0.192,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Arabic-Medium'),
                 textAlign: TextAlign.start,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -244,10 +379,21 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, position) {
                   int pos = position;
                   return Container(
-                      width: MediaQuery.of(context).size.width / 3,
+                      width: MediaQuery.of(context).size.width / 3.7,
                       child: mostPopularCateg(
                         context: context,
-                        onPress: () {},
+                        onPress: () {
+                          position == 1
+                              ? Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PassportHealth()))
+                              : Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PlaceholderWidget()));
+                        },
                         position: pos,
                         name: model[position].name,
                         icon: model[position].image,
@@ -276,27 +422,38 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.all(
             Radius.circular(15.0),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.15),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
           color: Colors.white,
         ),
         // color: Colors.black,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 80,
-                height: 75,
-                child: Image.asset(icon),
-              ),
-              Text(
-                name,
-                maxLines: 2,
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-              )
-            ]),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          SizedBox(
+            width: 50,
+            height: 50,
+            child: Image.asset(
+              icon,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            name,
+            maxLines: 2,
+            style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+                fontFamily: 'RB-Light'),
+          )
+        ]),
       ),
     );
   }
