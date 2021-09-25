@@ -307,7 +307,55 @@ class _HomePageState extends State<HomePage> {
                       ]),
                 ),
               ),
-              service(context, 10)
+              service(context, 10),
+              Container(
+                margin: EdgeInsets.all(20),
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15.0),
+                  ),
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Colors.grey.withOpacity(0.5),
+                  //     spreadRadius: 5,
+                  //     blurRadius: 7,
+                  //     offset: Offset(0, 3), // changes position of shadow
+                  //   ),
+                  // ],
+                  color: Color(0xE14AAF9E),
+                  // color: Color(0xFF054921),
+                ),
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Column(
+                  children: [
+                    Text(
+                      'نشكرك علي وعيك بتحميل تطبيق تباعد',
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          ' تــبـاعــــد \n Taboud',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Image(
+                          image: AssetImage('assets/image/23.png'),
+                          height: 25,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              )
             ],
           ),
         ),
