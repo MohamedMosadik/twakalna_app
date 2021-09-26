@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _controller = VideoPlayerController.asset(
-      'assets/vedio/line.mp4',
+      'assets/vedio/finall_line.mp4',
     );
     _controller.play();
     _controller.setLooping(true);
